@@ -29,8 +29,9 @@ export const args = Args.create(
   },
 );
 
-// AWOL and ASOL are psuedo avatar paths because you can choose to keep them in aftercore.
-const psuedoAvatarPaths = [Path.get(25), Path.get(47)];
+// AWOL (26) and ASOL (47) are psuedo avatar paths because you can choose to keep them in aftercore.
+const psuedoAvatarPaths = [26, 47];
+
 // 1-6 : standard classes
 // 18-20: West of Loathing avatars
 // 28-30: Shadows over Loathing avatars
@@ -44,7 +45,7 @@ function isValidClassPath(cls: Class, path: Path): boolean {
   }
 
   //if the class is one of the standard 6, and we are not in an avatar path.
-  if (cls.path.id === 0 && !path.avatar && !psuedoAvatarPaths.includes(path)) {
+  if (cls.path.id === 0 && !path.avatar && !psuedoAvatarPaths.includes(path.id)) {
     return true;
   }
 
