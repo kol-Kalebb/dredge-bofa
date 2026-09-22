@@ -29,13 +29,27 @@ export const args = Args.create(
   },
 );
 
+// AWOL and ASOL are psuedo avatar paths because you can choose to keep them in aftercore.
+const psuedoAvatarPaths = [Path.get(25), Path.get(47)];
+// 1-6 : standard classes
+// 18-20: West of Loathing avatars
+// 28-30: Shadows over Loathing avatars
+const aftercoreClasses = [1, 2, 3, 4, 5, 6, 18, 19, 20, 28, 29, 30];
+
 function isValidClassPath(cls: Class, path: Path): boolean {
   //if path is an avatar path or class is tied to a path, then only allow if classes/paths are valid.
   //e.g. you can't be a zootomist class in the Zombie slayer path.
   if (cls.path.id === path.id) {
     return true;
   }
-  if (cls.path.id === 0 && !path.avatar) {
+
+  //if the class is one of the standard 6, and we are not in an avatar path.
+  if (cls.path.id === 0 && !path.avatar && !psuedoAvatarPaths.includes(path)) {
+    return true;
+  }
+
+  //if you are in aftercore; allow for only certain classes.
+  if (path === Path.none && aftercoreClasses.includes(cls.id)) {
     return true;
   }
   return false;
