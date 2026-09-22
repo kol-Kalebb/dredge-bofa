@@ -89,7 +89,7 @@ export function main(command?: string): void {
 
   const factFunc = args.effect ? effectFact : itemFact;
 
-  const testPaths = args.path ? [args.path] : Path.all();
+  const testPaths = args.path ? [args.path] : [...Path.all(), Path.none];
   const testClasses = args.class ? [args.class] : Class.all();
   const testMonster = args.monster ? [args.monster] : Monster.all();
 
@@ -100,7 +100,9 @@ export function main(command?: string): void {
       }
       for (const mob of testMonster) {
         if (factFunc(cls, pth, mob) === fact) {
-          print(`Found ${fact} on ${mob} in ${pth}, as a ${cls}.`);
+          print(
+            `Found ${fact} on ${mob} in ${pth === Path.none ? "Unrestricted/Aftercore" : pth}, as a ${cls}.`,
+          );
         }
       }
     }
