@@ -7431,13 +7431,27 @@ var args = Args.create("Dredge Bofa Seeds", "A script for finding seeds for a pa
     help: "Narrow your search to a specific class."
   })
 });
+
+// AWOL and ASOL are psuedo avatar paths because you can choose to keep them in aftercore.
+var psuedoAvatarPaths = [external_kolmafia_namespaceObject.Path.get(25), external_kolmafia_namespaceObject.Path.get(47)];
+// 1-6 : standard classes
+// 18-20: West of Loathing avatars
+// 28-30: Shadows over Loathing avatars
+var aftercoreClasses = [1, 2, 3, 4, 5, 6, 18, 19, 20, 28, 29, 30];
 function isValidClassPath(cls, path) {
   //if path is an avatar path or class is tied to a path, then only allow if classes/paths are valid.
   //e.g. you can't be a zootomist class in the Zombie slayer path.
   if (cls.path.id === path.id) {
     return true;
   }
-  if (cls.path.id === 0 && !path.avatar) {
+
+  //if the class is one of the standard 6, and we are not in an avatar path.
+  if (cls.path.id === 0 && !path.avatar && !psuedoAvatarPaths.includes(path)) {
+    return true;
+  }
+
+  //if you are in aftercore; allow for only certain classes.
+  if (path === external_kolmafia_namespaceObject.Path.none && aftercoreClasses.includes(cls.id)) {
     return true;
   }
   return false;
