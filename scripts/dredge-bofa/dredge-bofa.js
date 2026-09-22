@@ -7404,7 +7404,11 @@ function sinceKolmafiaVersion(majorVersion, minorVersion) {
 }
 ;// ./src/main.ts
 function main_createForOfIteratorHelper(r, e) { var t = "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (!t) { if (Array.isArray(r) || (t = main_unsupportedIterableToArray(r)) || e && r && "number" == typeof r.length) { t && (r = t); var _n = 0, F = function F() {}; return { s: F, n: function n() { return _n >= r.length ? { done: !0 } : { done: !1, value: r[_n++] }; }, e: function e(r) { throw r; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var o, a = !0, u = !1; return { s: function s() { t = t.call(r); }, n: function n() { var r = t.next(); return a = r.done, r; }, e: function e(r) { u = !0, o = r; }, f: function f() { try { a || null == t.return || t.return(); } finally { if (u) throw o; } } }; }
+function main_toConsumableArray(r) { return main_arrayWithoutHoles(r) || main_iterableToArray(r) || main_unsupportedIterableToArray(r) || main_nonIterableSpread(); }
+function main_nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function main_unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return main_arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? main_arrayLikeToArray(r, a) : void 0; } }
+function main_iterableToArray(r) { if ("undefined" != typeof Symbol && null != r[Symbol.iterator] || null != r["@@iterator"]) return Array.from(r); }
+function main_arrayWithoutHoles(r) { if (Array.isArray(r)) return main_arrayLikeToArray(r); }
 function main_arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
 ;
 
@@ -7482,7 +7486,7 @@ function main(command) {
   (0,external_kolmafia_namespaceObject.print)("Looking for ".concat(fact).concat(mobNote).concat(pathNote).concat(classNote, "."));
   (0,external_kolmafia_namespaceObject.print)();
   var factFunc = args.effect ? external_kolmafia_namespaceObject.effectFact : external_kolmafia_namespaceObject.itemFact;
-  var testPaths = args.path ? [args.path] : external_kolmafia_namespaceObject.Path.all();
+  var testPaths = args.path ? [args.path] : [].concat(main_toConsumableArray(external_kolmafia_namespaceObject.Path.all()), [external_kolmafia_namespaceObject.Path.none]);
   var testClasses = args.class ? [args.class] : external_kolmafia_namespaceObject.Class.all();
   var testMonster = args.monster ? [args.monster] : external_kolmafia_namespaceObject.Monster.all();
   var _iterator = main_createForOfIteratorHelper(testPaths),
@@ -7504,7 +7508,7 @@ function main(command) {
             for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
               var mob = _step3.value;
               if (factFunc(cls, pth, mob) === fact) {
-                (0,external_kolmafia_namespaceObject.print)("Found ".concat(fact, " on ").concat(mob, " in ").concat(pth, ", as a ").concat(cls, "."));
+                (0,external_kolmafia_namespaceObject.print)("Found ".concat(fact, " on ").concat(mob, " in ").concat(pth === external_kolmafia_namespaceObject.Path.none ? "Unrestricted/Aftercore" : pth, ", as a ").concat(cls, "."));
               }
             }
           } catch (err) {
